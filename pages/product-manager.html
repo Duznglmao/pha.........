@@ -21,7 +21,6 @@
         </nav>
     </header>
 
-
     <main>
         <h2>Quản lý bài test</h2>
         <div class="toolbar">
@@ -51,7 +50,7 @@
                     </tr>
                 </thead>
                 <tbody id="testTableBody">
-                    <tr>
+                    <!-- <tr>
                         <td>1</td>
                         <td>History Quiz</td>
                         <td>📚 Lịch sử</td>
@@ -138,7 +137,7 @@
                             <button class="btn-edit">Sửa</button>
                             <button class="btn-delete">Xoá</button>
                         </td>
-                    </tr>
+                    </tr> -->
                 </tbody>
             </table>
         </div>
@@ -151,38 +150,6 @@
             <button class="page-btn">&gt;</button>
         </div>
     </main>
-
-    <!-- popup chỉnh sửa -->
-    <div class="modal-overlay" id="quizEditModal">
-        <div class="modal-container">
-            <div class="modal-header">
-                <h2>Thêm/sửa bài test</h2>
-                <button class="close-btn">&times;</button>
-            </div>
-
-            <div class="modal-body">
-                <div class="input-group">
-                    <label for="quiz-name">Tên bài test</label>
-                    <input type="text" id="quiz-name" placeholder="Ví dụ: Khoa học máy tính">
-                </div>
-
-                <div class="input-group">
-                    <label for="quiz-question-count">Số câu hỏi</label>
-                    <input type="number" id="quiz-question-count" placeholder="Ví dụ: 20">
-                </div>
-
-                <div class="input-group">
-                    <label for="quiz-time">Thời gian (phút)</label>
-                    <input type="number" id="quiz-time" placeholder="Ví dụ: 15">
-                </div>
-            </div>
-
-            <div class="modal-footer">
-                <button class="btn btn-cancel">Huỷ</button>
-                <button class="btn btn-save" id="saveQuizBtn">Lưu</button>
-            </div>
-        </div>
-    </div>
 
     <!-- popup xóa -->
     <div class="modal-overlay" id="quizDeleteModal">

@@ -5,10 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tạo bài test</title>
-    <link rel="icon" href="/assets/images/vibrant-quiz-game-show-vector-illustration_1308-181014.avif" type="image/x-icon">
+    <link rel="icon" href="/assets/images/vibrant-quiz-game-show-vector-illustration_1308-181014.avif"
+        type="image/x-icon">
     <link rel="stylesheet" href="/css/base.css">
-    <link rel="stylesheet" href="/css/modal.css">
     <link rel="stylesheet" href="/css/quiz-builder.css">
+    <link rel="stylesheet" href="/css/modal.css">
 </head>
 
 <body>
@@ -22,16 +23,11 @@
     </header>
 
     <main>
-        <div class="header-main">
-            <h2 id="pageTitle">Tạo bài test</h2>
-        </div>
-
+        <h2>Tạo bài test</h2>
         <div class="form-container">
-            <!-- Thông tin cơ bản -->
             <div class="form-group">
                 <label for="testName">Tên bài test</label>
                 <input type="text" id="testName" placeholder="Điền tên bài test">
-                <span class="error-text" id="nameError"></span>
             </div>
 
             <div class="form-row">
@@ -39,66 +35,104 @@
                     <label for="testCategory">Danh mục</label>
                     <select id="testCategory">
                         <option value="">Chọn danh mục</option>
+                        <option value="1">📚 Lịch sử</option>
+                        <option value="2">🧠 Khoa học</option>
+                        <option value="3">🎤 Giải trí</option>
+                        <option value="4">🏠 Đời sống</option>
                     </select>
-                    <span class="error-text" id="categoryError"></span>
                 </div>
                 <div class="form-col">
                     <label for="testTime">Thời gian (phút)</label>
-                    <input type="number" id="testTime" value="15" min="1" max="120">
-                    <span class="error-text" id="timeError"></span>
+                    <input type="number" id="testTime" value="15" min="1">
                 </div>
             </div>
 
             <!-- Quản lý câu hỏi -->
             <div class="section-header">
-                <div class="section-title">
-                    <h3>Quản lý câu hỏi</h3>
-                    <span class="error-text" id="questionListError"></span>
-                </div>
+                <h3>Quản lý câu hỏi</h3>
                 <div class="section-actions">
-                    <button class="btn-add-question" id="btnAddQuestion">Thêm câu hỏi mới</button>
-                    <button class="btn-save-test" id="btnSaveQuiz">Lưu</button>
+                    <button class="btn-add-question" id="btnAddQuestion">Thêm câu hỏi</button>
+                    <button class="btn-save-test" id="btnSaveTest">Lưu</button>
                 </div>
             </div>
+            <p class="error-text" id="errorForm"></p>
 
             <div class="table-wrapper">
                 <table>
                     <thead>
                         <tr>
-                            <th style="width: 60px;">ID</th>
+                            <th style="width: 80px;">ID</th>
                             <th>Câu hỏi</th>
                             <th style="width: 160px; text-align: center;">Hành động</th>
                         </tr>
                     </thead>
                     <tbody id="questionTableBody">
-                        <!-- Dữ liệu được render từ JS -->
+                        <!-- <tr>
+                            <td>1</td>
+                            <td>What is the capital of France?</td>
+                            <td class="action-cell">
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xoá</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td>Which planet is known as the Red Planet?</td>
+                            <td class="action-cell">
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xoá</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td>Which planet is known as the Red Planet?</td>
+                            <td class="action-cell">
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xoá</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td>Which planet is known as the Red Planet?</td>
+                            <td class="action-cell">
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xoá</button>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td>Which planet is known as the Red Planet?</td>
+                            <td class="action-cell">
+                                <button class="btn-edit">Sửa</button>
+                                <button class="btn-delete">Xoá</button>
+                            </td>
+                        </tr> -->
                     </tbody>
                 </table>
             </div>
+
         </div>
     </main>
 
-    <!-- Modal Thêm/Sửa Câu hỏi (Dùng modal.css) -->
+    <!-- Modal thêm/sửa câu hỏi -->
     <div class="modal-overlay" id="questionModal">
         <div class="modal-container modal-lg">
             <div class="modal-header">
-                <h2 id="modalTitle">Thêm/sửa câu hỏi</h2>
+                <h2>Thêm/sửa câu hỏi</h2>
                 <button class="close-btn">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="input-group">
-                    <label>Câu hỏi</label>
+                    <label for="questionContent">Câu hỏi</label>
                     <input type="text" id="questionContent" placeholder="Nhập câu hỏi">
-                    <span class="error-text" id="qContentError"></span>
+                    <span class="error-text" id="errorQuestion"></span>
                 </div>
-                
-                <div class="answer-section">
+
+                <div class="input-group">
                     <label>Câu trả lời</label>
-                    <div id="answersList">
-                        <!-- Đáp án render ở đây -->
-                    </div>
-                    <span class="error-text" id="qAnswersError"></span>
-                    <button type="button" class="btn-add-answer" id="btnAddAnswer">Thêm câu trả lời</button>
+                    <div id="answerListContainer"></div>
+                    <button class="btn-add-answer" id="btnAddAnswer">Thêm câu trả lời</button>
+                    <span class="error-text" id="errorAnswer"></span>
                 </div>
             </div>
             <div class="modal-footer">
@@ -108,23 +142,25 @@
         </div>
     </div>
 
-    <!-- Modal Xác nhận xóa (Dùng modal.css) -->
-    <div class="modal-overlay" id="deleteModal">
+    <!-- Modal xóa câu hỏi -->
+    <div class="modal-overlay" id="questionDeleteModal">
         <div class="modal-container">
-            <div class="modal-header text-center">
+            <div class="modal-header">
                 <h2>Xác nhận xóa</h2>
                 <button class="close-btn">&times;</button>
             </div>
+
             <div class="modal-body">
-                <p>Bạn có chắc chắn muốn xóa câu hỏi này không? Hành động này không thể hoàn tác.</p>
+                <p>Bạn chắc chắn muốn xóa câu hỏi này?</p>
             </div>
-            <div class="modal-footer justify-center">
+
+            <div class="modal-footer">
                 <button class="btn btn-cancel">Huỷ</button>
-                <button class="btn btn-delete" id="btnConfirmDelete">Xóa</button>
+                <button class="btn btn-delete" id="deleteQuestionBtn">Xoá</button>
             </div>
         </div>
     </div>
-
+    
     <footer>
         <p>&copy; 2025 Quiz App. All rights reserved.</p>
     </footer>

@@ -312,47 +312,6 @@ tbody tr:last-child td {
     opacity: 0.85;
 }
 
-/* Header Main */
-.header-main {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-}
-
-.header-main h2 {
-    margin-bottom: 0;
-}
-
-/* Error Text */
-.error-text {
-    color: #dc3545;
-    font-size: 12px;
-    margin-top: 4px;
-    display: none;
-    min-height: 18px;
-}
-
-.input-error {
-    border-color: #dc3545 !important;
-}
-
-.section-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.btn-add-question {
-    background-color: #007bff;
-    color: white;
-}
-
-.btn-save-test {
-    background-color: #007bff;
-    color: white;
-}
-
 footer {
     text-align: center;
     background-color: #212529;

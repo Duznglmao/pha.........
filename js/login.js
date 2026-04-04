@@ -1,7 +1,17 @@
+// ==================== KIỂM TRA ĐÃ ĐĂNG NHẬP ====================
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+if (currentUser) {
+    window.location.href = currentUser.role === "admin"
+        ? "/pages/category-manager.html"
+        : "/pages/dashboard.html";
+}
+
+// ==================== DOM ====================
 const formLogin = document.getElementById("formLogin");
 const userEmail = document.getElementById("userEmail");
 const userPassword = document.getElementById("userPassword");
 
+// ==================== TIỆN ÍCH ====================
 function showError(selector, message, visible) {
     const el = document.querySelector(selector);
     if (!el) return;
@@ -9,7 +19,7 @@ function showError(selector, message, visible) {
     el.style.display = visible ? "block" : "none";
 }
 
-
+// ==================== XỬ LÝ ĐĂNG NHẬP ====================
 function handleLogin(e) {
     e.preventDefault();
 
@@ -29,6 +39,7 @@ function handleLogin(e) {
         return;
     }
 
+    // Tài khoản Admin
     if (emailValue === "admin@gmail.com" && passwordValue === "admin123") {
         const adminUser = {
             id: 0,
@@ -43,17 +54,14 @@ function handleLogin(e) {
             title: 'ĐĂNG NHẬP THÀNH CÔNG!',
             text: 'Chào mừng quản trị viên!',
             icon: 'success',
-            background: 'white',
-            color: '#00d4ff',
             timer: 1500,
             timerProgressBar: true,
-            didClose: function () {
-                window.location.href = "/pages/category-manager.html";
-            }
+            didClose: () => window.location.href = "/pages/category-manager.html"
         });
         return;
     }
 
+    // Tài khoản người dùng thường
     const users = JSON.parse(localStorage.getItem("users")) || [];
     const userFound = users.find(u => u.email === emailValue && u.password === passwordValue);
 
@@ -62,26 +70,16 @@ function handleLogin(e) {
 
         Swal.fire({
             title: 'ĐĂNG NHẬP THÀNH CÔNG!',
-            text: 'Chào mừng bạn quay trở lại hệ thống!',
+            text: `Chào mừng ${userFound.fullName}!`,
             icon: 'success',
-            background: 'white',
-            color: '#00d4ff',
             timer: 2000,
             timerProgressBar: true,
-            didClose: function () {
-                window.location.href = "/pages/dashboard.html";
-            }
+            didClose: () => window.location.href = "/pages/dashboard.html"
         });
     } else {
         showError(".error-email", "Email hoặc mật khẩu không chính xác", true);
     }
 }
 
+// ==================== EVENT LISTENER ====================
 formLogin.addEventListener("submit", handleLogin);
-
-const currentUser = JSON.parse(localStorage.getItem("currentUser"));
-if (currentUser) {
-    window.location.href = currentUser.role === "admin"
-        ? "/pages/category-manager.html"
-        : "/pages/dashboard.html";
-}
