@@ -1,4 +1,4 @@
-// ==================== KIỂM TRA QUYỀN TRUY CẬP ====================
+
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if (!currentUser || currentUser.role !== "admin") {
     window.location.href = "/pages/login.html";
@@ -8,7 +8,6 @@ function logout() {
     localStorage.removeItem("currentUser");
 }
 
-// ==================== TIỆN ÍCH ====================
 function showError(selector, message, visible) {
     const el = document.querySelector(selector);
     if (!el) return;
@@ -16,7 +15,6 @@ function showError(selector, message, visible) {
     el.style.display = visible ? "block" : "none";
 }
 
-// ==================== DỮ LIỆU BAN ĐẦU ✅ CHUẨN CẤU TRÚC ====================
 let categories = JSON.parse(localStorage.getItem("categories"));
 if (!categories) {
     categories = [
@@ -34,7 +32,6 @@ if (!categories) {
     localStorage.setItem("categories", JSON.stringify(categories));
 }
 
-// ==================== BIẾN TRẠNG THÁI & DOM ====================
 let editingId = null;
 let deleteId = null;
 let currentPage = 1;
@@ -47,7 +44,6 @@ const deleteModal = document.getElementById("categoryDeleteModal");
 const inputName = document.getElementById("category-name");
 const inputEmoji = document.getElementById("emoji");
 
-// ==================== HIỂN THỊ BẢNG ====================
 function renderTable() {
     const start = (currentPage - 1) * limit;
     const pageData = categories.slice(start, start + limit);
@@ -66,7 +62,6 @@ function renderTable() {
     renderPagination();
 }
 
-// ==================== PHÂN TRANG ====================
 function renderPagination() {
     const totalPages = Math.max(1, Math.ceil(categories.length / limit));
     let html = `<button class="page-btn" onclick="goToPage(${currentPage - 1})" ${currentPage === 1 ? 'disabled' : ''}>&lt;</button>`;
@@ -86,7 +81,7 @@ function goToPage(page) {
     renderTable();
 }
 
-// ==================== MODAL THÊM / SỬA ====================
+
 function openAddModal() {
     editingId = null;
     editModal.querySelector("h2").innerText = "Thêm danh mục mới";
@@ -112,7 +107,6 @@ function closeEditModal() {
     editModal.classList.remove("active");
 }
 
-// ==================== VALIDATE DANH MỤC ====================
 function validateForm() {
     const name = inputName.value.trim();
     const emoji = inputEmoji.value.trim();
@@ -151,7 +145,6 @@ function validateForm() {
     return true;
 }
 
-// ==================== LƯU DANH MỤC ====================
 function saveCategory() {
     if (!validateForm()) return;
 
@@ -177,7 +170,6 @@ function saveCategory() {
     renderTable();
 }
 
-// ==================== MODAL XOÁ ====================
 function openDeleteModal(categoryId) {
     deleteId = categoryId;
     deleteModal.classList.add("active");
@@ -197,7 +189,6 @@ function confirmDeleteCategory() {
     renderTable();
 }
 
-// ==================== EVENT LISTENERS ====================
 btnAdd.addEventListener("click", openAddModal);
 
 editModal.querySelector(".close-btn").addEventListener("click", closeEditModal);
@@ -213,5 +204,4 @@ window.addEventListener("click", e => {
     if (e.target === deleteModal) closeDeleteModal();
 });
 
-// ==================== KHỞI TẠO ====================
 renderTable();

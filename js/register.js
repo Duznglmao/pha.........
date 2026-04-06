@@ -1,4 +1,4 @@
-// ==================== KIỂM TRA ĐÃ ĐĂNG NHẬP ====================
+
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if (currentUser) {
     window.location.href = currentUser.role === "admin"
@@ -6,17 +6,14 @@ if (currentUser) {
         : "/pages/dashboard.html";
 }
 
-// ==================== DỮ LIỆU ====================
 let users = JSON.parse(localStorage.getItem("users")) || [];
 
-// ==================== DOM ====================
 const formRegi = document.getElementById("formRegi");
 const userName = document.getElementById("userName");
 const userEmail = document.getElementById("userEmail");
 const userPassword = document.getElementById("userPassword");
 const userRePassword = document.getElementById("userRePassword");
 
-// ==================== TIỆN ÍCH ====================
 function showError(selector, message, visible) {
     const el = document.querySelector(selector);
     if (!el) return;
@@ -28,11 +25,9 @@ function createId() {
     return users.length === 0 ? 1 : Math.max(...users.map(u => u.id)) + 1;
 }
 
-// ==================== VALIDATE FORM ====================
 function validateForm(nameValue, emailValue, passwordValue, rePassValue) {
     let isValid = true;
 
-    // Họ và tên không được để trống
     if (!nameValue) {
         showError(".error-name", "Họ và tên không được để trống", true);
         isValid = false;
@@ -40,7 +35,6 @@ function validateForm(nameValue, emailValue, passwordValue, rePassValue) {
         showError(".error-name", "", false);
     }
 
-    // Email không được để trống, không trùng, đúng định dạng
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     const emailExist = users.some(u => u.email === emailValue);
 
@@ -53,11 +47,12 @@ function validateForm(nameValue, emailValue, passwordValue, rePassValue) {
     } else if (emailExist) {
         showError(".error-email", "Email đã tồn tại trên hệ thống", true);
         isValid = false;
+    } else if(emailValue === "admin@gmail.com") {
+        showError("error-email", "Không được đăng ký email này", true);
     } else {
         showError(".error-email", "", false);
     }
-
-    // Mật khẩu không được để trống, tối thiểu 8 ký tự
+    
     if (!passwordValue) {
         showError(".error-password", "Mật khẩu không được để trống", true);
         isValid = false;
@@ -68,7 +63,6 @@ function validateForm(nameValue, emailValue, passwordValue, rePassValue) {
         showError(".error-password", "", false);
     }
 
-    // Mật khẩu xác nhận
     if (!rePassValue) {
         showError(".error-repassword", "Mật khẩu xác nhận không được để trống", true);
         isValid = false;
@@ -82,7 +76,6 @@ function validateForm(nameValue, emailValue, passwordValue, rePassValue) {
     return isValid;
 }
 
-// ==================== XỬ LÝ ĐĂNG KÝ ====================
 function handleRegister(e) {
     e.preventDefault();
 
@@ -93,7 +86,6 @@ function handleRegister(e) {
 
     if (!validateForm(nameValue, emailValue, passwordValue, rePassValue)) return;
 
-    // ✅ Cấu trúc user chuẩn theo yêu cầu
     users.push({
         id: createId(),
         fullName: nameValue,
@@ -114,5 +106,4 @@ function handleRegister(e) {
     });
 }
 
-// ==================== EVENT LISTENER ====================
 formRegi.addEventListener("submit", handleRegister);

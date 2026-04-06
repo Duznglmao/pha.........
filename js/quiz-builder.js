@@ -1,4 +1,3 @@
-// ==================== KIỂM TRA QUYỀN TRUY CẬP ====================
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if (!currentUser || currentUser.role !== "admin") {
     window.location.href = "/pages/login.html";
@@ -8,7 +7,6 @@ function logout() {
     localStorage.removeItem("currentUser");
 }
 
-// ==================== DỮ LIỆU ====================
 let tests = JSON.parse(localStorage.getItem("tests")) || [];
 let categories = JSON.parse(localStorage.getItem("categories")) || [];
 
@@ -17,7 +15,6 @@ let currentTest = null;
 let questions = [];
 let editingQuestionIndex = null;
 
-// ==================== DOM ====================
 const testName = document.getElementById("testName");
 const testCategory = document.getElementById("testCategory");
 const testTime = document.getElementById("testTime");
@@ -36,7 +33,6 @@ const errorForm = document.getElementById("errorForm");
 const deleteQuestionBtn = document.getElementById("deleteQuestionBtn");
 let deletingQuestionIndex = null;
 
-// ==================== KHỞI TẠO FORM ====================
 function initForm() {
     testCategory.innerHTML = `<option value="">Chọn danh mục</option>`
         + categories.map(c => `<option value="${c.id}">${c.categoryEmoji} ${c.categoryName}</option>`).join('');
@@ -54,7 +50,6 @@ function initForm() {
     renderQuestionTable();
 }
 
-// ==================== HIỂN THỊ DANH SÁCH CÂU HỎI ====================
 function renderQuestionTable() {
     questionTableBody.innerHTML = questions.map((q, index) => `
         <tr>
@@ -68,7 +63,6 @@ function renderQuestionTable() {
     `).join('');
 }
 
-// ==================== MODAL CÂU HỎI ====================
 function openQuestionModal(index = null) {
     editingQuestionIndex = index;
     questionContent.value = "";
@@ -76,15 +70,13 @@ function openQuestionModal(index = null) {
     errorAnswer.style.display = "none";
 
     const modalTitle = questionModal.querySelector(".modal-header h2");
-    
+
     if (index !== null) {
-        // Sửa câu hỏi cũ
         modalTitle.textContent = "Sửa câu hỏi";
         const q = questions[index];
         questionContent.value = q.content;
         renderAnswerInputs(q.answers);
     } else {
-        // Thêm câu hỏi mới
         modalTitle.textContent = "Thêm câu hỏi";
         renderAnswerInputs([
             { answer: "", isCorrected: false },
@@ -100,7 +92,6 @@ function closeQuestionModal() {
     questionModal.classList.remove("active");
 }
 
-// ==================== RENDER DANH SÁCH INPUT CÂU TRẢ LỜI ====================
 function renderAnswerInputs(answers) {
     answerListContainer.innerHTML = answers.map((a, i) => `
         <div class="answer-item">
@@ -113,7 +104,6 @@ function renderAnswerInputs(answers) {
     `).join('');
 }
 
-// ==================== XỬ LÝ CÂU TRẢ LỜI ====================
 function addNewAnswer() {
     const currentAnswers = getCurrentAnswers();
     currentAnswers.push({ answer: "", isCorrected: false });
@@ -141,7 +131,6 @@ function getCurrentAnswers() {
     });
 }
 
-// ==================== VALIDATE CÂU HỎI ====================
 function validateQuestion() {
     let isValid = true;
     errorQuestion.style.display = "none";
@@ -161,7 +150,6 @@ function validateQuestion() {
         isValid = false;
     }
 
-    // Validate câu trả lời
     const hasEmptyAnswer = answers.some(a => !a.answer.trim());
     const hasCorrectAnswer = answers.some(a => a.isCorrected);
 
@@ -178,7 +166,6 @@ function validateQuestion() {
     return isValid;
 }
 
-// ==================== LƯU CÂU HỎI ====================
 function saveQuestion() {
     if (!validateQuestion()) return;
 
@@ -197,7 +184,6 @@ function saveQuestion() {
     renderQuestionTable();
 }
 
-// ==================== XÓA CÂU HỎI ====================
 function deleteQuestion(index) {
     deletingQuestionIndex = index;
     questionDeleteModal.classList.add("active");
@@ -216,7 +202,6 @@ function closeDeleteModal() {
     questionDeleteModal.classList.remove("active");
 }
 
-// ==================== LƯU BÀI TEST ====================
 function saveTest() {
     const nameValue = testName.value.trim();
     const categoryValue = parseInt(testCategory.value);
@@ -268,17 +253,14 @@ function saveTest() {
     window.location.href = "/pages/product-manager.html";
 }
 
-// ==================== EVENT LISTENERS ====================
 btnSaveTest.addEventListener("click", saveTest);
 btnAddQuestion.addEventListener("click", () => openQuestionModal(null));
 btnAddAnswer.addEventListener("click", addNewAnswer);
 btnSaveQuestion.addEventListener("click", saveQuestion);
 
-// Modal thêm/sửa câu hỏi
 questionModal.querySelector(".close-btn").addEventListener("click", closeQuestionModal);
 questionModal.querySelector(".btn-cancel").addEventListener("click", closeQuestionModal);
 
-// Modal xóa câu hỏi
 questionDeleteModal.querySelector(".close-btn").addEventListener("click", closeDeleteModal);
 questionDeleteModal.querySelector(".btn-cancel").addEventListener("click", closeDeleteModal);
 deleteQuestionBtn.addEventListener("click", confirmDeleteQuestion);
@@ -288,5 +270,4 @@ window.addEventListener("click", e => {
     if (e.target === questionDeleteModal) closeDeleteModal();
 });
 
-// ==================== KHỞI TẠO ====================
 initForm();

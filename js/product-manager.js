@@ -1,4 +1,3 @@
-// ==================== KIỂM TRA QUYỀN TRUY CẬP ====================
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if (!currentUser || currentUser.role !== "admin") {
     window.location.href = "/pages/login.html";
@@ -13,7 +12,6 @@ function changePage() {
     window.location.href = "/pages/quiz-builder.html";
 }
  
-// ==================== DỮ LIỆU BAN ĐẦU ✅ CHUẨN CẤU TRÚC ====================
 let tests = JSON.parse(localStorage.getItem("tests"));
 if (!tests) {
     tests = [
@@ -74,7 +72,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Lịch sử 📚 id 1
         {
             id: 2,
             testName: "Lịch sử Việt Nam",
@@ -130,7 +127,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Địa lý 🌍 id 5
         {
             id: 3,
             testName: "Địa lý thế giới",
@@ -187,7 +183,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Giải trí 🎤 id 3
         {
             id: 4,
             testName: "Vui về phim ảnh",
@@ -243,7 +238,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Toán học 🔢 id 6
         {
             id: 5,
             testName: "Toán học cơ bản",
@@ -299,7 +293,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Đời sống 🏠 id 4
         {
             id: 6,
             testName: "Kỹ năng sống",
@@ -355,7 +348,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Tiếng Anh 🇬🇧 id 7
         {
             id: 7,
             testName: "English Basics",
@@ -411,7 +403,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Y tế ⚕️ id 8
         {
             id: 8,
             testName: "Y tế và Sức khỏe",
@@ -467,7 +458,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Thể thao ⚽ id 9
         {
             id: 9,
             testName: "Thế giới Thể thao",
@@ -523,7 +513,6 @@ if (!tests) {
             ]
         },
 
-        // Danh mục: Công nghệ 💻 id 10
         {
             id: 10,
             testName: "Công nghệ Hiện đại",
@@ -582,7 +571,6 @@ if (!tests) {
     localStorage.setItem("tests", JSON.stringify(tests));
 }
 
-// ==================== BIẾN TRẠNG THÁI & DOM ====================
 let currentPage = 1;
 const limit = 5;
 let sortBy = "";
@@ -595,7 +583,6 @@ const searchInput = document.getElementById("searchInput");
 const deleteModal = document.getElementById("quizDeleteModal");
 const deleteBtn = document.getElementById("deleteQuizBtn");
 
-// ==================== XỬ LÝ DỮ LIỆU ====================
 function getProcessedTests() {
     const categories = JSON.parse(localStorage.getItem("categories")) || [];
 
@@ -620,7 +607,6 @@ function getProcessedTests() {
     return result;
 }
 
-// ==================== HIỂN THỊ BẢNG ====================
 function renderTable() {
     const processed = getProcessedTests();
     const start = (currentPage - 1) * limit;
@@ -643,7 +629,6 @@ function renderTable() {
     renderPagination();
 }
 
-// ==================== PHÂN TRANG ====================
 function renderPagination() {
     const processed = getProcessedTests();
     const totalPages = Math.max(1, Math.ceil(processed.length / limit));
@@ -666,7 +651,6 @@ function goToPage(page) {
     renderTable();
 }
 
-// ==================== MODAL XOÁ ====================
 function openDeleteModal(testId) {
     deleteId = testId;
     deleteModal.classList.add("active");
@@ -684,13 +668,11 @@ function confirmDelete() {
     renderTable();
 }
 
-// ==================== ĐIỀU HƯỚNG SỬA BÀI TEST ====================
 function openEditTest(testId) {
     localStorage.setItem("currentEditingTestId", testId);
     window.location.href = "/pages/quiz-builder.html";
 }
 
-// ==================== EVENT LISTENERS ====================
 sortSelect.addEventListener("change", e => {
     sortBy = e.target.value;
     currentPage = 1;
@@ -711,5 +693,4 @@ window.addEventListener("click", e => {
     if (e.target === deleteModal) closeDeleteModal();
 });
 
-// ==================== KHỞI TẠO ====================
 renderTable();

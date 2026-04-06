@@ -1,4 +1,3 @@
-// ==================== KIỂM TRA QUYỀN TRUY CẬP ====================
 const currentUser = JSON.parse(localStorage.getItem("currentUser"));
 if (!currentUser) {
     window.location.href = "/pages/login.html";
@@ -8,20 +7,19 @@ function logout() {
     localStorage.removeItem("currentUser");
 }
 
-// ==================== DỮ LIỆU ====================
 const quizId = parseInt(localStorage.getItem("currentQuizId"));
 const tests = JSON.parse(localStorage.getItem("tests")) || [];
 const quiz = tests.find(t => t.id === quizId);
 
 if (!quiz) window.location.href = "/pages/dashboard.html";
 
-// ==================== TRẠNG THÁI ====================
+document.querySelector('.quiz-title').textContent = quiz.testName;
+
 let currentQuestion = 0;
 let userAnswers = new Array(quiz.questions.length).fill(null).map(() => []);
 let timeRemaining = quiz.playTime * 60;
 let timerInterval = null;
 
-// ==================== DOM ====================
 const timerDisplay = document.getElementById("timerDisplay");
 const timerTotal = document.getElementById("timerTotal");
 const questionLabel = document.getElementById("questionLabel");
@@ -34,9 +32,7 @@ const btnFinish = document.getElementById("btnFinish");
 const resultModal = document.getElementById("resultModal");
 const btnRetry = document.getElementById("btnRetry");
 
-// ==================== ĐỆM NGƯỢC THỜI GIAN ====================
 function startTimer() {
-    // Cập nhật hiển thị ngay lập tức (không delay)
     const updateTimerDisplay = () => {
         const minutes = Math.floor(timeRemaining / 60);
         const seconds = timeRemaining % 60;
@@ -55,7 +51,6 @@ function startTimer() {
     }, 1000);
 }
 
-// ==================== RENDER Lưới câu hỏi ====================
 function renderQuestionGrid() {
     questionGrid.innerHTML = quiz.questions.map((_, i) => `
         <button class="q-btn ${i === currentQuestion ? 'current' : ''} ${userAnswers[i] && userAnswers[i].length > 0 ? 'answered' : ''}"
@@ -63,7 +58,6 @@ function renderQuestionGrid() {
     `).join('');
 }
 
-// ==================== RENDER CÂU HỎI HIỆN TẠI ====================
 function renderCurrentQuestion() {
     const q = quiz.questions[currentQuestion];
     questionLabel.textContent = `Câu hỏi ${currentQuestion + 1} trên ${quiz.questions.length}:`;
@@ -96,13 +90,11 @@ function renderCurrentQuestion() {
     renderQuestionGrid();
 }
 
-// ==================== ĐIỀU HƯỚNG CÂU HỎI ====================
 function goToQuestion(index) {
     currentQuestion = index;
     renderCurrentQuestion();
 }
 
-// ==================== HOÀN THÀNH BÀI TEST ====================
 function finishQuiz() {
     clearInterval(timerInterval);
 
@@ -116,12 +108,10 @@ function finishQuiz() {
         if (isCorrect) correctCount++;
     });
 
-    // Tăng lượt chơi
     const quizIndex = tests.findIndex(t => t.id === quizId);
     tests[quizIndex].playAmount++;
     localStorage.setItem("tests", JSON.stringify(tests));
 
-    // Hiển thị kết quả
     const percent = Math.round((correctCount / quiz.questions.length) * 100);
     resultModal.querySelector('.score-text strong').textContent = `${percent}%`;
     resultModal.querySelector('.result-row:nth-child(1) p').textContent = quiz.questions.length;
@@ -131,7 +121,6 @@ function finishQuiz() {
     resultModal.classList.add("active");
 }
 
-// ==================== EVENT LISTENERS ====================
 btnPrev.addEventListener("click", () => goToQuestion(currentQuestion - 1));
 btnNext.addEventListener("click", () => goToQuestion(currentQuestion + 1));
 btnFinish.addEventListener("click", finishQuiz);
@@ -139,7 +128,6 @@ btnRetry.addEventListener("click", () => window.location.reload());
 
 resultModal.querySelector('.close-btn').addEventListener("click", () => resultModal.classList.remove("active"));
 
-// ==================== KHỞI TẠO ====================
 timerTotal.textContent = `Thời gian: ${quiz.playTime} phút`;
 startTimer();
 renderCurrentQuestion();

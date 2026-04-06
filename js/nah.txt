@@ -1,0 +1,3 @@
+khi xóa thì hiện tên danh mục
+khi đăng xuất thì hiện confirm
+Nút 3 chấm khi phân trang
